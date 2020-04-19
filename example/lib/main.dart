@@ -156,7 +156,7 @@ class _MyAppState extends State<MyApp> {
               await file.readAsBytes(), ImgProc.colorMapHot);
           break;
         case 'houghCircles':
-          res = await ImgProc.cvtColor(await file.readAsBytes(), 6);
+          res = await ImgProc.cvtColor(await file.readAsBytes(), ImgProc.colorBGR2GRAY);
           res = await ImgProc.houghCircles(
               await res, 3, 2.1, 0.1, 150, 100, 0, 0);
           break;
