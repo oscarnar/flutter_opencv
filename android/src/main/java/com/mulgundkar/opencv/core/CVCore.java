@@ -49,7 +49,7 @@ public class CVCore {
             Imgproc.cvtColor(src, grayMat, Imgproc.COLOR_BGR2GRAY);
             Imgproc.GaussianBlur(grayMat, grayMat,new Size(5.0, 5.0), 0.0);
             
-            // Thresholding
+            // Thresholding and canny
             Imgproc.threshold(grayMat, grayMat, 20.0, 255.0, Imgproc.THRESH_TRIANGLE);
             Imgproc.Canny(grayMat, cannyEdges, 10, 100);
             Imgproc.dilate(cannyEdges, cannyEdges, kernel);
@@ -68,6 +68,7 @@ public class CVCore {
                         result.add(points.get(j).x);
                         result.add(points.get(j).y);
                     }
+                    break;
                 }
             }      
         } catch (Exception e) {
