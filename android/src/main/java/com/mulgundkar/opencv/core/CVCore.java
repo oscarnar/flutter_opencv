@@ -48,7 +48,7 @@ public class CVCore {
             // Convert the image to Gray
             Imgproc.cvtColor(src, grayMat, Imgproc.COLOR_BGR2GRAY);
             Imgproc.GaussianBlur(grayMat, grayMat,new Size(5.0, 5.0), 0.0);
-            Imgproc.adaptiveThreshold(grayMat, grayMat,255,ImgProc.ADAPTIVE_THRESH_GAUSSIAN_C, ImgProc.THRESH_BINARY, 7, 14);
+            Imgproc.adaptiveThreshold(grayMat, grayMat,255, 1, 0, 7, 14);
             
             // Thresholding and canny
             //Imgproc.threshold(grayMat, grayMat, 20.0, 255.0, Imgproc.THRESH_TRIANGLE);
