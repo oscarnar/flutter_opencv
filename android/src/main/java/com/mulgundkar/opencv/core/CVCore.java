@@ -55,7 +55,7 @@ public class CVCore {
             Imgproc.dilate(cannyEdges, cannyEdges, kernel);
 
             Imgproc.findContours(cannyEdges, contours, hierarchy, Imgproc.RETR_LIST,Imgproc.CHAIN_APPROX_SIMPLE);
-
+            double maxArea = 0;
             for(int i=0; i<contours.size(); i++){
                 MatOfPoint cont = contours.get(i);
                 MatOfPoint2f pf = new MatOfPoint2f(cont.toArray());
@@ -64,13 +64,17 @@ public class CVCore {
                 Imgproc.approxPolyDP(pf, aprox,0.02 * approxDistance, true);
                 List<Point> points = aprox.toList();
                 if(points.size() == 4){
-                    for(int j=0; j<points.size(); j++){
-                        result.add(points.get(j).x);
-                        result.add(points.get(j).y);
+                    double tempArea = Imgproc.contourArea(cont);
+                    if(tempArea > maxArea){
+                        result.clear();
+                        for(int j=0; j<points.size(); j++){
+                            result.add(points.get(j).x);
+                            result.add(points.get(j).y);
+                        }
+                        maxArea = tempArea;
                     }
-                    break;
                 }
-            }      
+            }    
         } catch (Exception e) {
             System.out.println("OpenCV Error: " + e.toString());
         }
