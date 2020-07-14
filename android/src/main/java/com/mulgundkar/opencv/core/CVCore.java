@@ -7,6 +7,8 @@ import org.opencv.core.Core;
 import org.opencv.core.CvType;
 import org.opencv.core.Mat;
 import org.opencv.core.Point;
+import org.opencv.core.MatOfPoint;
+import org.opencv.core.MatOfPoint2f;
 import org.opencv.core.Scalar;
 import org.opencv.core.Size;
 import org.opencv.core.MatOfByte;
@@ -16,6 +18,7 @@ import org.opencv.imgproc.Imgproc;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.ListIterator;
 
 import androidx.annotation.NonNull;
 import io.flutter.Log;
@@ -30,6 +33,49 @@ import io.flutter.plugin.common.PluginRegistry.Registrar;
  * OpenCV4Plugin
  */
 public class CVCore {
+
+    @SuppressLint("MissingPermission")
+    public ArrayList<Double> findContours(byte[] byteData) {
+        List<MatOfPoint> contours = new ArrayList<MatOfPoint>();
+        ArrayList<Double> result = new ArrayList<Double>();
+        try{
+            Mat grayMat = new Mat();
+            Mat cannyEdges = new Mat();
+            Mat hierarchy = new Mat();
+            Mat kernel = Imgproc.getStructuringElement(Imgproc.MORPH_RECT,new Size(9.0, 9.0));
+
+            Mat src = Imgcodecs.imdecode(new MatOfByte(byteData), Imgcodecs.IMREAD_UNCHANGED);
+            // Convert the image to Gray
+            Imgproc.cvtColor(src, grayMat, Imgproc.COLOR_BGR2GRAY);
+            Imgproc.GaussianBlur(grayMat, grayMat,new Size(5.0, 5.0), 0.0);
+            
+            // Thresholding
+            Imgproc.threshold(grayMat, grayMat, 20.0, 255.0, Imgproc.THRESH_TRIANGLE);
+            Imgproc.Canny(grayMat, cannyEdges, 10, 100);
+            Imgproc.dilate(cannyEdges, cannyEdges, kernel);
+
+            Imgproc.findContours(cannyEdges, contours, hierarchy, Imgproc.RETR_LIST,Imgproc.CHAIN_APPROX_SIMPLE);
+
+            for(int i=0; i<contours.size(); i++){
+                MatOfPoint cont = contours.get(i);
+                MatOfPoint2f pf = new MatOfPoint2f(cont.toArray());
+                MatOfPoint2f aprox = new MatOfPoint2f();
+                double approxDistance = Imgproc.arcLength(pf,true);
+                Imgproc.approxPolyDP(pf, aprox,0.02 * approxDistance, true);
+                List<Point> points = aprox.toList();
+                if(points.size() == 4){
+                    for(int j=0; j<points.size(); j++){
+                        result.add(points.get(j).x);
+                        result.add(points.get(j).y);
+                    }
+                }
+            }      
+        } catch (Exception e) {
+            System.out.println("OpenCV Error: " + e.toString());
+        }
+        
+        return result;
+    }
 
     @SuppressLint("MissingPermission")
     public byte[] cvtColor(byte[] byteData, int outputType) {
