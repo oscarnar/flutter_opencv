@@ -48,6 +48,7 @@ public class CVCore {
             // Convert the image to Gray
             Imgproc.cvtColor(src, grayMat, Imgproc.COLOR_BGR2GRAY);
             Imgproc.GaussianBlur(grayMat, grayMat,new Size(5.0, 5.0), 0.0);
+            Imgproc.adaptiveThreshold(grayMat, grayMat,255,ImgProc.ADAPTIVE_THRESH_GAUSSIAN_C, ImgProc.THRESH_BINARY, 7, 14);
             
             // Thresholding and canny
             //Imgproc.threshold(grayMat, grayMat, 20.0, 255.0, Imgproc.THRESH_TRIANGLE);
@@ -65,6 +66,7 @@ public class CVCore {
                 List<Point> points = aprox.toList();
                 if(points.size() == 4){
                     double tempArea = Imgproc.contourArea(cont);
+                    print(tempArea)
                     if(tempArea > maxArea){
                         result.clear();
                         for(int j=0; j<points.size(); j++){
