@@ -66,7 +66,7 @@ public class CVCore {
                 List<Point> points = aprox.toList();
                 if(points.size() == 4){
                     double tempArea = Imgproc.contourArea(cont);
-                    print(tempArea);
+                    System.out.println(tempArea);
                     if(tempArea > maxArea){
                         result.clear();
                         for(int j=0; j<points.size(); j++){
