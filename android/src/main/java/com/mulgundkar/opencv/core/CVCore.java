@@ -52,7 +52,7 @@ public class CVCore {
             
             // Thresholding and canny
             //Imgproc.threshold(grayMat, grayMat, 20.0, 255.0, Imgproc.THRESH_TRIANGLE);
-            Imgproc.Canny(grayMat, cannyEdges, 30, 50);
+            Imgproc.Canny(grayMat, cannyEdges, 50, 200);
             //Imgproc.dilate(cannyEdges, cannyEdges, kernel);
 
             Imgproc.findContours(cannyEdges, contours, hierarchy, Imgproc.RETR_LIST,Imgproc.CHAIN_APPROX_SIMPLE);
@@ -66,7 +66,6 @@ public class CVCore {
                 List<Point> points = aprox.toList();
                 if(points.size() == 4){
                     double tempArea = Imgproc.contourArea(cont);
-                    System.out.println(tempArea);
                     if(tempArea > maxArea){
                         result.clear();
                         for(int j=0; j<points.size(); j++){
@@ -78,6 +77,7 @@ public class CVCore {
                 }
                 pf = null;
                 aprox = null;
+                cont = null;
             }
             grayMat = null;
             cannyEdges = null;
