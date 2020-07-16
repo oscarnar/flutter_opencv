@@ -61,6 +61,9 @@ public class OpenCV4Plugin implements FlutterPlugin, MethodCallHandler {
             case "findContours":
                 result.success(core.findContours((byte[]) call.argument("byteData")));
                 break;
+            case "onlyFindContours":
+                result.success(core.onlyFindContours((byte[]) call.argument("byteData")));
+                break;
             case "cvtColor":
                 result.success(core.cvtColor((byte[]) call.argument("byteData"), (int) call.argument("outputType")));
                 break;

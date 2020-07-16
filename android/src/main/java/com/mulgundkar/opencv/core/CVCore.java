@@ -35,6 +35,49 @@ import io.flutter.plugin.common.PluginRegistry.Registrar;
 public class CVCore {
 
     @SuppressLint("MissingPermission")
+    public ArrayList<Double> onlyFindContours(byte[] byteData) {
+        ArrayList<Double> result = new ArrayList<Double>();
+        try{
+            List<MatOfPoint> contours = new ArrayList<MatOfPoint>();
+            Mat hierarchy = new Mat();
+
+            Mat src = Imgcodecs.imdecode(new MatOfByte(byteData), Imgcodecs.IMREAD_UNCHANGED);
+
+            Imgproc.findContours(src, contours, hierarchy, Imgproc.RETR_LIST,Imgproc.CHAIN_APPROX_SIMPLE);
+            double maxArea = 0;
+            for(int i=0; i<contours.size(); i++){
+                MatOfPoint cont = contours.get(i);
+                MatOfPoint2f pf = new MatOfPoint2f(cont.toArray());
+                MatOfPoint2f aprox = new MatOfPoint2f();
+                double approxDistance = Imgproc.arcLength(pf,true);
+                Imgproc.approxPolyDP(pf, aprox,0.02 * approxDistance, true);
+                List<Point> points = aprox.toList();
+                if(points.size() == 4){
+                    double tempArea = Imgproc.contourArea(cont);
+                    if(tempArea > maxArea){
+                        result.clear();
+                        for(int j=0; j<points.size(); j++){
+                            result.add(points.get(j).x);
+                            result.add(points.get(j).y);
+                        }
+                        maxArea = tempArea;
+                    }
+                }
+                points = null;
+                pf = null;
+                aprox = null;
+                cont = null;
+            }
+            hierarchy = null;
+            contours = null;   
+        } catch (Exception e) {
+            System.out.println("OpenCV Error: " + e.toString());
+        }
+        
+        return result;
+    }
+
+    @SuppressLint("MissingPermission")
     public ArrayList<Double> findContours(byte[] byteData) {
         List<MatOfPoint> contours = new ArrayList<MatOfPoint>();
         ArrayList<Double> result = new ArrayList<Double>();
@@ -75,6 +118,7 @@ public class CVCore {
                         maxArea = tempArea;
                     }
                 }
+                points =null;
                 pf = null;
                 aprox = null;
                 cont = null;
