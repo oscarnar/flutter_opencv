@@ -81,9 +81,9 @@ public class CVCore {
 
     @SuppressLint("MissingPermission")
     public ArrayList<Double> findContours(byte[] byteData) {
-        List<MatOfPoint> contours = new ArrayList<MatOfPoint>();
         ArrayList<Double> result = new ArrayList<Double>();
         try{
+            List<MatOfPoint> contours = new ArrayList<MatOfPoint>();
             Mat grayMat = new Mat();
             Mat cannyEdges = new Mat();
             Mat hierarchy = new Mat();
@@ -92,10 +92,8 @@ public class CVCore {
             // Convert the image to Gray
             Imgproc.cvtColor(src, grayMat, Imgproc.COLOR_BGR2GRAY);
             Imgproc.GaussianBlur(grayMat, grayMat,new Size(5.0, 5.0), 0.0);
-            //Imgproc.adaptiveThreshold(grayMat, grayMat,255, 1, 0, 7, 14);
             
-            // Thresholding and canny
-            //Imgproc.threshold(grayMat, grayMat, 20.0, 255.0, Imgproc.THRESH_TRIANGLE);
+            // canny
             Imgproc.Canny(grayMat, cannyEdges, 10, 50);
 
             Imgproc.findContours(cannyEdges, contours, hierarchy, Imgproc.RETR_LIST,Imgproc.CHAIN_APPROX_SIMPLE);
