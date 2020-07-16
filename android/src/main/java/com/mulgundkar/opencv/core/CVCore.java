@@ -48,9 +48,9 @@ public class CVCore {
             contours.sort(new Comparator<MatOfPoint>() {
                 @Override
                 public int compare(MatOfPoint o1, MatOfPoint o2) {
-                    Rect r1 = Imgproc.contourArea(o1);
+                    double r1 = Imgproc.contourArea(o1);
     
-                    Rect r2 = Imgproc.contourArea(o2);
+                    double r2 = Imgproc.contourArea(o2);
     
                     return (int) (r1.area() - r2.area());
                 }
