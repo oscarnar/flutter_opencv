@@ -95,7 +95,7 @@ public class CVCore {
             
             // Thresholding and canny
             //Imgproc.threshold(grayMat, grayMat, 20.0, 255.0, Imgproc.THRESH_TRIANGLE);
-            Imgproc.Canny(grayMat, cannyEdges, 20, 100);
+            Imgproc.Canny(grayMat, cannyEdges, 10, 50);
             //Imgproc.dilate(cannyEdges, cannyEdges, kernel);
 
             Imgproc.findContours(cannyEdges, contours, hierarchy, Imgproc.RETR_LIST,Imgproc.CHAIN_APPROX_SIMPLE);
