@@ -809,10 +809,12 @@ class ImgProc {
   }
 
   static Future<dynamic> findContours(
-      Uint8List byteData) async {
+      Uint8List byteData,double minT, double maxT) async {
     /// Variable to store operation result
     final dynamic result = await _channel.invokeMethod('findContours', {
       'byteData': byteData,
+      'minT': minT,
+      'maxT': maxT
     });
 
     /// Function returns the set String as result, use for debugging

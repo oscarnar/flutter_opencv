@@ -80,7 +80,7 @@ public class CVCore {
     }
 
     @SuppressLint("MissingPermission")
-    public ArrayList<Double> findContours(byte[] byteData) {
+    public ArrayList<Double> findContours(byte[] byteData,double minT,double maxT) {
         ArrayList<Double> result = new ArrayList<Double>();
         try{
             List<MatOfPoint> contours = new ArrayList<MatOfPoint>();
@@ -94,7 +94,7 @@ public class CVCore {
             Imgproc.GaussianBlur(grayMat, grayMat,new Size(5.0, 5.0), 0.0);
             
             // canny
-            Imgproc.Canny(grayMat, cannyEdges, 10, 50);
+            Imgproc.Canny(grayMat, cannyEdges, minT, maxT);
 
             Imgproc.findContours(cannyEdges, contours, hierarchy, Imgproc.RETR_LIST,Imgproc.CHAIN_APPROX_SIMPLE);
             
