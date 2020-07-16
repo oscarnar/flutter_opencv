@@ -15,8 +15,6 @@ import org.opencv.core.MatOfByte;
 import org.opencv.core.MatOfInt;
 import org.opencv.imgcodecs.Imgcodecs;
 import org.opencv.imgproc.Imgproc;
-import org.opencv.core.Rect;
-import org.opencv.core.RotatedRect;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -50,18 +48,14 @@ public class CVCore {
             contours.sort(new Comparator<MatOfPoint>() {
                 @Override
                 public int compare(MatOfPoint o1, MatOfPoint o2) {
-                    MatOfPoint2f mat1 = new MatOfPoint2f(o1.toArray());
-                    RotatedRect rect1 = Imgproc.minAreaRect(mat1);
-                    Rect r1 = rect1.boundingRect();
+                    Rect r1 = Imgproc.contourArea(o1);
     
-                    MatOfPoint2f mat2 = new MatOfPoint2f(o2.toArray());
-                    RotatedRect rect2 = Imgproc.minAreaRect(mat2);
-                    Rect r2 = rect2.boundingRect();
+                    Rect r2 = Imgproc.contourArea(o2);
     
                     return (int) (r1.area() - r2.area());
                 }
             });
-            double maxArea = 0;
+            double maxArea = 10;
             for(int i=contours.size()-1; i>=0; i--){
                 MatOfPoint cont = contours.get(i);
                 MatOfPoint2f pf = new MatOfPoint2f(cont.toArray());
@@ -79,6 +73,7 @@ public class CVCore {
                         }
                         maxArea = tempArea;
                     }
+                    break;
                 }
                 points = null;
                 pf = null;
