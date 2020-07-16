@@ -109,22 +109,9 @@ public class CVCore {
             Imgproc.Canny(grayMat, cannyEdges, 10, 50);
 
             Imgproc.findContours(cannyEdges, contours, hierarchy, Imgproc.RETR_LIST,Imgproc.CHAIN_APPROX_SIMPLE);
-            contours.sort(new Comparator<MatOfPoint>() {
-                @Override
-                public int compare(MatOfPoint o1, MatOfPoint o2) {
-                    MatOfPoint2f mat1 = new MatOfPoint2f(o1.toArray());
-                    RotatedRect rect1 = Imgproc.minAreaRect(mat1);
-                    Rect r1 = rect1.boundingRect();
-    
-                    MatOfPoint2f mat2 = new MatOfPoint2f(o2.toArray());
-                    RotatedRect rect2 = Imgproc.minAreaRect(mat2);
-                    Rect r2 = rect2.boundingRect();
-    
-                    return (int) (r1.area() - r2.area());
-                }
-            });
+            
             double maxArea = 0;
-            for(int i=contours.size()-1; i>=0; i--){
+            for(int i=0; i<contours.size(); i++){
                 MatOfPoint cont = contours.get(i);
                 MatOfPoint2f pf = new MatOfPoint2f(cont.toArray());
                 MatOfPoint2f aprox = new MatOfPoint2f();
