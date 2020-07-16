@@ -819,6 +819,17 @@ class ImgProc {
     return result;
   }
 
+  static Future<dynamic> onlyFindContours(
+      Uint8List byteData) async {
+    /// Variable to store operation result
+    final dynamic result = await _channel.invokeMethod('onlyFindContours', {
+      'byteData': byteData,
+    });
+
+    /// Function returns the set String as result, use for debugging
+    return result;
+  }
+
   static Future<dynamic> houghCircles(
       Uint8List byteData,
       int method,
