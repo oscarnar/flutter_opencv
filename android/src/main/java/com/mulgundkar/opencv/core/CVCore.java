@@ -15,6 +15,8 @@ import org.opencv.core.MatOfByte;
 import org.opencv.core.MatOfInt;
 import org.opencv.imgcodecs.Imgcodecs;
 import org.opencv.imgproc.Imgproc;
+import org.opencv.core.Rect;
+import org.opencv.core.RotatedRect;
 
 import java.util.ArrayList;
 import java.util.List;
