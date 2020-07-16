@@ -45,16 +45,7 @@ public class CVCore {
             Mat src = Imgcodecs.imdecode(new MatOfByte(byteData), Imgcodecs.IMREAD_UNCHANGED);
 
             Imgproc.findContours(src, contours, hierarchy, Imgproc.RETR_LIST,Imgproc.CHAIN_APPROX_SIMPLE);
-            contours.sort(new Comparator<MatOfPoint>() {
-                @Override
-                public int compare(MatOfPoint o1, MatOfPoint o2) {
-                    double r1 = Imgproc.contourArea(o1);
-    
-                    double r2 = Imgproc.contourArea(o2);
-    
-                    return (int) (r1 - r2);
-                }
-            });
+
             double maxArea = 10;
             for(int i=0; contours.size() > i; i++){
                 MatOfPoint cont = contours.get(i);
